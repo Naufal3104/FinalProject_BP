@@ -15,9 +15,8 @@ This is a Java GUI application that interacts with a database. It provides a use
 - Java Development Kit (JDK)
 - Any Java IDE (like IntelliJ IDEA, Eclipse)
 - Database Management System MySQL
-- Database Management System MySQL
-- MYSQL ODBC Jar
-- JDate jar
+- MYSQL ODBC J-8.2.0 Jar Extension
+- JDate jar Extension
 
 ## Setup and Installation
 
