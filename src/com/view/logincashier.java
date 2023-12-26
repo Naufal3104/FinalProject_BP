@@ -3,12 +3,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.view;
+
 import com.koneksi.connect;
 import com.view.sales;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import com.koneksi.UserSession;
+
 /**
  *
  * @author LENOVO
@@ -125,15 +127,16 @@ public class logincashier extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        try{
+        try {
             Connection con = connect.getcon();
             java.sql.Statement stat = con.createStatement();
-            ResultSet result = stat.executeQuery("select * from cashiers where " + "username='" + txtUsername.getText() + "'");
+            ResultSet result = stat.executeQuery("select * from users where " + "username='" + txtUsername.getText() + "'");
             if (result.next()) {
                 if (txtPassword.getText().equals(result.getString("password"))) {
                     JOptionPane.showMessageDialog(rootPane, "Login Successful");
-                    UserSession.setUsername(txtUsername.getText()); // simpan username
-                    UserSession.setCashierId(result.getString("CashierID")); // simpan cashierId
+                    UserSession.setUsername(result.getString("Name")); // simpan username
+                    UserSession.setCashierId(result.getString("UserID")); // simpan cashierId
+                    UserSession.setUserRole(result.getInt("role")); // simpan role
                     sales formhome = new sales();
                     formhome.setVisible(true);
                     this.dispose();
@@ -148,9 +151,10 @@ public class logincashier extends javax.swing.JFrame {
                 txtPassword.setText("");
                 txtUsername.requestFocus();
             }
-        }catch(Exception ex){
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(rootPane, "Failed, " + ex);
         }
+
     }//GEN-LAST:event_btnLoginActionPerformed
 
     /**

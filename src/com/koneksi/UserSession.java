@@ -11,7 +11,8 @@ package com.koneksi;
 public class UserSession {
 
     private static String username;
-    private static String cashierId; // tambahkan ini
+    private static String cashierId;
+    private static int userRole; // tambahkan ini
 
     public static String getUsername() {
         return username;
@@ -21,11 +22,25 @@ public class UserSession {
         UserSession.username = username;
     }
 
-    public static String getCashierId() { // tambahkan ini
+    public static String getCashierId() {
         return cashierId;
     }
 
-    public static void setCashierId(String cashierId) { // tambahkan ini
+    public static void setCashierId(String cashierId) {
         UserSession.cashierId = cashierId;
+    }
+
+    public static int getUserRole() { // tambahkan ini
+        return userRole;
+    }
+
+    public static void setUserRole(int userRole) { // tambahkan ini
+        UserSession.userRole = userRole;
+    }
+    
+    public static void clearUserSession() {
+        username = null;
+        cashierId = null;
+        userRole = 0;
     }
 }

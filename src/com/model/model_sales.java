@@ -53,17 +53,48 @@ public class model_sales implements controller_sales {
     }
 
     public void removecart(sales Sales) throws SQLException {
-        int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure to delete this cart?", "Warning", JOptionPane.YES_NO_OPTION);
-        if (dialogResult == JOptionPane.YES_OPTION) {
+        if (Sales.txtProductID.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Select an item first");
+        } else {
+            int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure to delete this cart?", "Warning", JOptionPane.YES_NO_OPTION);
+            if (dialogResult == JOptionPane.YES_OPTION) {
+                try {
+                    String productId = Sales.txtProductID.getText();
+                    Connection con = connect.getcon();
+                    String sql = "DELETE FROM carts WHERE ProductID = ?";
+                    PreparedStatement prepare = con.prepareStatement(sql);
+                    prepare.setString(1, productId);
+                    prepare.executeUpdate();
+                    prepare.close();
+                    JOptionPane.showMessageDialog(null, "Cart has been deleted");
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                } finally {
+                    showproduct(Sales);
+                    showcart(Sales);
+                    Sales.setLebarKolom1();
+                    Sales.setLebarKolom2();
+                }
+            }
+        }
+    }
+
+    @Override
+    public void editcart(sales Sales) throws SQLException {
+        if (Sales.txtProductID.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Select an item first");
+        } else {
             try {
                 String productId = Sales.txtProductID.getText();
+                int newQty = Integer.parseInt(Sales.spinQtycart.getValue().toString());
                 Connection con = connect.getcon();
-                String sql = "DELETE FROM carts WHERE ProductID = ?";
+                String sql = "UPDATE carts SET Qty = ? WHERE ProductID = ?";
                 PreparedStatement prepare = con.prepareStatement(sql);
-                prepare.setString(1, productId);
+                prepare.setInt(1, newQty);
+                prepare.setString(2, productId);
                 prepare.executeUpdate();
                 prepare.close();
-                JOptionPane.showMessageDialog(null, "Cart has been deleted");
+                JOptionPane.showMessageDialog(null, "Cart has been updated");
             } catch (SQLException ex) {
                 ex.printStackTrace();
             } finally {
@@ -72,29 +103,6 @@ public class model_sales implements controller_sales {
                 Sales.setLebarKolom1();
                 Sales.setLebarKolom2();
             }
-        }
-    }
-
-    @Override
-    public void editcart(sales Sales) throws SQLException {
-        try {
-            String productId = Sales.txtProductID.getText();
-            int newQty = Integer.parseInt(Sales.spinQtycart.getValue().toString());
-            Connection con = connect.getcon();
-            String sql = "UPDATE carts SET Qty = ? WHERE ProductID = ?";
-            PreparedStatement prepare = con.prepareStatement(sql);
-            prepare.setInt(1, newQty);
-            prepare.setString(2, productId);
-            prepare.executeUpdate();
-            prepare.close();
-            JOptionPane.showMessageDialog(null, "Cart has been updated");
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        } finally {
-            showproduct(Sales);
-            showcart(Sales);
-            Sales.setLebarKolom1();
-            Sales.setLebarKolom2();
         }
     }
 
@@ -144,7 +152,7 @@ public class model_sales implements controller_sales {
                 Connection con = connect.getcon();
                 java.util.Date date = new java.util.Date();
                 java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-                String query = "INSERT INTO transactions (CashierID, Date, Total, PayTotal) VALUES (?, ?, ?, ?)";
+                String query = "INSERT INTO transactions (UserID, Date, Total, PayTotal) VALUES (?, ?, ?, ?)";
                 PreparedStatement pstmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
                 pstmt.setString(1, cashierId);
                 pstmt.setDate(2, sqlDate);

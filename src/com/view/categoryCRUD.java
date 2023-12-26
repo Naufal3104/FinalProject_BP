@@ -4,11 +4,13 @@
  */
 package com.view;
 
+import com.koneksi.UserSession;
 import com.model.model_category;
 import java.awt.Component;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
@@ -77,6 +79,8 @@ public class categoryCRUD extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
+        jMenu5 = new javax.swing.JMenu();
+        jMenu6 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -216,6 +220,22 @@ public class categoryCRUD extends javax.swing.JFrame {
         });
         jMenuBar1.add(jMenu4);
 
+        jMenu5.setText("Edit Users");
+        jMenu5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu5MouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(jMenu5);
+
+        jMenu6.setText("Logout");
+        jMenu6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu6MouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(jMenu6);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -232,7 +252,7 @@ public class categoryCRUD extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     model_category model = new model_category();
-    
+
     public void setColumnWidth(int kolom) {
         DefaultTableColumnModel dtcm = (DefaultTableColumnModel) tableCategory.getColumnModel();
         TableColumn kolomtabel = dtcm.getColumn(kolom);
@@ -281,34 +301,50 @@ public class categoryCRUD extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenu4MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        try {
-            model.Clear(this);
-        } catch (SQLException ex) {
-            Logger.getLogger(categoryCRUD.class.getName()).log(Level.SEVERE, null, ex);
+        if (UserSession.getUserRole() == 2) {
+            JOptionPane.showMessageDialog(null, "You don't have access to this feature");
+        } else {
+            try {
+                model.Clear(this);
+            } catch (SQLException ex) {
+                Logger.getLogger(productCRUD.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        try {
-            model.Add(this);
-        } catch (SQLException ex) {
-            Logger.getLogger(categoryCRUD.class.getName()).log(Level.SEVERE, null, ex);
+        if (UserSession.getUserRole() == 2) {
+            JOptionPane.showMessageDialog(null, "You don't have access to this feature");
+        } else {
+            try {
+                model.Add(this);
+            } catch (SQLException ex) {
+                Logger.getLogger(productCRUD.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        try {
-            model.Edit(this);
-        } catch (SQLException ex) {
-            Logger.getLogger(categoryCRUD.class.getName()).log(Level.SEVERE, null, ex);
+        if (UserSession.getUserRole() == 2) {
+            JOptionPane.showMessageDialog(null, "You don't have access to this feature");
+        } else {
+            try {
+                model.Edit(this);
+            } catch (SQLException ex) {
+                Logger.getLogger(productCRUD.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        try {
-            model.Delete(this);
-        } catch (SQLException ex) {
-            Logger.getLogger(categoryCRUD.class.getName()).log(Level.SEVERE, null, ex);
+        if (UserSession.getUserRole() == 2) {
+            JOptionPane.showMessageDialog(null, "You don't have access to this feature");
+        } else {
+            try {
+                model.Delete(this);
+            } catch (SQLException ex) {
+                Logger.getLogger(productCRUD.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -319,6 +355,27 @@ public class categoryCRUD extends javax.swing.JFrame {
             Logger.getLogger(categoryCRUD.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_tableCategoryMouseClicked
+
+    private void jMenu5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu5MouseClicked
+        if (UserSession.getUserRole() == 2 || UserSession.getUserRole() == 3) {
+            JOptionPane.showMessageDialog(null, "You don't have access to this feature");
+        } else {
+            try {
+                this.setVisible(false);
+                new Users().setVisible(true);
+            } catch (SQLException ex) {
+                Logger.getLogger(productCRUD.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_jMenu5MouseClicked
+
+    private void jMenu6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu6MouseClicked
+        int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure want to logout?", "Warning", JOptionPane.YES_NO_OPTION);
+        if (dialogResult == JOptionPane.YES_OPTION) {
+            UserSession.clearUserSession();
+            this.setVisible(false);
+            new logincashier().setVisible(true);
+        }    }//GEN-LAST:event_jMenu6MouseClicked
 
     /**
      * @param args the command line arguments
@@ -366,6 +423,8 @@ public class categoryCRUD extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

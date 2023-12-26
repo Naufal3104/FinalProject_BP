@@ -29,8 +29,8 @@ public class model_transaction implements controller_transaction {
             try {
                 Connection con = connect.getcon();
                 Statement stt = con.createStatement();
-                String sql = "SELECT t.TransactionID, c.CashierName, t.Date, t.Total, t.PayTotal FROM transactions t "
-                        + "INNER JOIN cashiers c ON t.CashierID = c.CashierID";
+                String sql = "SELECT t.TransactionID, c.Name, t.Date, t.Total, t.PayTotal FROM transactions t "
+                        + "INNER JOIN users c ON t.UserID = c.UserID";
                 ResultSet res = stt.executeQuery(sql);
                 int i = 1;
                 while (res.next()) {
@@ -70,8 +70,8 @@ public class model_transaction implements controller_transaction {
         try {
             Connection con = connect.getcon();
             Statement stt = con.createStatement();
-            String sql = "SELECT t.TransactionID, c.CashierName, t.Date, t.Total, t.PayTotal FROM transactions t "
-                    + "INNER JOIN cashiers c ON t.CashierID = c.CashierID "
+            String sql = "SELECT t.TransactionID, c.Name, t.Date, t.Total, t.PayTotal FROM transactions t "
+                    + "INNER JOIN users c ON t.UserID = c.UserID "
                     + "WHERE t.Date = '" + date + "'";
             ResultSet res = stt.executeQuery(sql);
             int i = 1;

@@ -4,11 +4,13 @@
  */
 package com.view;
 
+import com.koneksi.UserSession;
 import com.model.model_detail;
 import java.awt.Component;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
@@ -21,7 +23,7 @@ import javax.swing.table.TableColumnModel;
  * @author LENOVO
  */
 public class detailTransaction extends javax.swing.JFrame {
-    
+
     public DefaultTableModel tablemodel;
     String header[] = {"No.", "ProductName", "Qty", "Subtotal"};
     public int lebar = 0;
@@ -75,6 +77,8 @@ public class detailTransaction extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
+        jMenu5 = new javax.swing.JMenu();
+        jMenu6 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -206,6 +210,22 @@ public class detailTransaction extends javax.swing.JFrame {
         });
         jMenuBar1.add(jMenu4);
 
+        jMenu5.setText("Edit Users");
+        jMenu5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu5MouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(jMenu5);
+
+        jMenu6.setText("Logout");
+        jMenu6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu6MouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(jMenu6);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -226,7 +246,7 @@ public class detailTransaction extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     model_detail model = new model_detail();
-    
+
     public void setColumnWidth(int kolom) {
         DefaultTableColumnModel dtcm = (DefaultTableColumnModel) tableDetail.getColumnModel();
         TableColumn kolomtabel = dtcm.getColumn(kolom);
@@ -247,20 +267,20 @@ public class detailTransaction extends javax.swing.JFrame {
         lebar = lebar + margin;
         kolomtabel.setPreferredWidth(lebar);
     }
-    
+
     public void setLebarKolom() {
         int a;
         for (a = 0; a < tableDetail.getColumnCount(); a++) {
             setColumnWidth(a);
         }
     }
-    
+
     private void jMenu4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu4MouseClicked
         try {
             this.setVisible(false);
             new showTransaction().setVisible(true);
         } catch (Exception e) {
-            
+
         }
     }//GEN-LAST:event_jMenu4MouseClicked
 
@@ -282,6 +302,27 @@ public class detailTransaction extends javax.swing.JFrame {
         this.setVisible(false);
         new sales().setVisible(true);
     }//GEN-LAST:event_jMenu1MouseClicked
+
+    private void jMenu5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu5MouseClicked
+        if (UserSession.getUserRole() == 2 || UserSession.getUserRole() == 3) {
+            JOptionPane.showMessageDialog(null, "You don't have access to this feature");
+        } else {
+            try {
+                this.setVisible(false);
+                new Users().setVisible(true);
+            } catch (SQLException ex) {
+                Logger.getLogger(productCRUD.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_jMenu5MouseClicked
+
+    private void jMenu6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu6MouseClicked
+        int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure want to logout?", "Warning", JOptionPane.YES_NO_OPTION);
+        if (dialogResult == JOptionPane.YES_OPTION) {
+            UserSession.clearUserSession();
+            this.setVisible(false);
+            new logincashier().setVisible(true);
+        }    }//GEN-LAST:event_jMenu6MouseClicked
 
     /**
      * @param args the command line arguments
@@ -329,6 +370,8 @@ public class detailTransaction extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

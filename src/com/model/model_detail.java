@@ -24,11 +24,11 @@ public class model_detail implements controller_detail {
             Connection con = connect.getcon();
             Statement stt = con.createStatement();
             String transactionID = GetTransactionID.getTransactionID();
-            String sql = "SELECT p.ProductName, d.Qty, d.Subtotal, c.CashierName, t.Date, t.Total, t.PayTotal "
+            String sql = "SELECT p.ProductName, d.Qty, d.Subtotal, c.Name, t.Date, t.Total, t.PayTotal "
                     + "FROM detailtransactions d "
                     + "INNER JOIN products p ON d.ProductID = p.ProductID "
                     + "INNER JOIN transactions t ON d.TransactionID = t.TransactionID "
-                    + "INNER JOIN cashiers c ON t.CashierID = c.CashierID "
+                    + "INNER JOIN users c ON t.UserID = c.UserID "
                     + "WHERE t.TransactionID = '" + transactionID + "'";
             ResultSet res = stt.executeQuery(sql);
             int i = 1;

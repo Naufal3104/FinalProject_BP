@@ -4,6 +4,7 @@
  */
 package com.view;
 
+import com.koneksi.UserSession;
 import com.model.model_product;
 import com.view.sales;
 import com.view.categoryCRUD;
@@ -17,7 +18,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
-
 
 /**
  *
@@ -91,6 +91,8 @@ public class productCRUD extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
+        jMenu5 = new javax.swing.JMenu();
+        jMenu6 = new javax.swing.JMenu();
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel4.setText("Price");
@@ -282,6 +284,22 @@ public class productCRUD extends javax.swing.JFrame {
         });
         jMenuBar1.add(jMenu4);
 
+        jMenu5.setText("Edit Users");
+        jMenu5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu5MouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(jMenu5);
+
+        jMenu6.setText("Logout");
+        jMenu6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu6MouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(jMenu6);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -332,26 +350,38 @@ public class productCRUD extends javax.swing.JFrame {
     }
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        try {
-            model.Save(this);
-        } catch (SQLException ex) {
-            Logger.getLogger(productCRUD.class.getName()).log(Level.SEVERE, null, ex);
+        if (UserSession.getUserRole() == 2) {
+            JOptionPane.showMessageDialog(null, "You don't have access to this feature");
+        } else {
+            try {
+                model.Save(this);
+            } catch (SQLException ex) {
+                Logger.getLogger(productCRUD.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
-        try {
-            model.New(this);
-        } catch (SQLException ex) {
-            Logger.getLogger(productCRUD.class.getName()).log(Level.SEVERE, null, ex);
+        if (UserSession.getUserRole() == 2) {
+            JOptionPane.showMessageDialog(null, "You don't have access to this feature");
+        } else {
+            try {
+                model.New(this);
+            } catch (SQLException ex) {
+                Logger.getLogger(productCRUD.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_btnNewActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        try {
-            model.Edit(this);
-        } catch (SQLException ex) {
-            Logger.getLogger(productCRUD.class.getName()).log(Level.SEVERE, null, ex);
+        if (UserSession.getUserRole() == 2) {
+            JOptionPane.showMessageDialog(null, "You don't have access to this feature");
+        } else {
+            try {
+                model.Edit(this);
+            } catch (SQLException ex) {
+                Logger.getLogger(productCRUD.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_btnEditActionPerformed
 
@@ -360,10 +390,14 @@ public class productCRUD extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        try {
-            model.Delete(this);
-        } catch (SQLException ex) {
-            Logger.getLogger(productCRUD.class.getName()).log(Level.SEVERE, null, ex);
+        if (UserSession.getUserRole() == 2) {
+            JOptionPane.showMessageDialog(null, "You don't have access to this feature");
+        } else {
+            try {
+                model.Delete(this);
+            } catch (SQLException ex) {
+                Logger.getLogger(productCRUD.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
@@ -389,6 +423,27 @@ public class productCRUD extends javax.swing.JFrame {
         this.setVisible(false);
         new showTransaction().setVisible(true);
     }//GEN-LAST:event_jMenu4MouseClicked
+
+    private void jMenu5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu5MouseClicked
+        if (UserSession.getUserRole() == 2 || UserSession.getUserRole() == 3) {
+            JOptionPane.showMessageDialog(null, "You don't have access to this feature");
+        } else {
+            try {
+                this.setVisible(false);
+                new Users().setVisible(true);
+            } catch (SQLException ex) {
+                Logger.getLogger(productCRUD.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_jMenu5MouseClicked
+
+    private void jMenu6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu6MouseClicked
+        int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure want to logout?", "Warning", JOptionPane.YES_NO_OPTION);
+        if (dialogResult == JOptionPane.YES_OPTION) {
+            UserSession.clearUserSession();
+            this.setVisible(false);
+            new logincashier().setVisible(true);
+        }    }//GEN-LAST:event_jMenu6MouseClicked
 
     /**
      * @param args the command line arguments
@@ -447,6 +502,8 @@ public class productCRUD extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;

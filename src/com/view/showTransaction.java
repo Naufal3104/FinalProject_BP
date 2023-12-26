@@ -19,6 +19,7 @@ import javax.swing.table.TableColumnModel;
 import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 import com.koneksi.GetTransactionID;
+import com.koneksi.UserSession;
 
 /**
  *
@@ -70,6 +71,8 @@ public class showTransaction extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
+        jMenu5 = new javax.swing.JMenu();
+        jMenu6 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -176,6 +179,22 @@ public class showTransaction extends javax.swing.JFrame {
         jMenu4.setText("Transaction");
         jMenuBar1.add(jMenu4);
 
+        jMenu5.setText("Edit Users");
+        jMenu5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu5MouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(jMenu5);
+
+        jMenu6.setText("Logout");
+        jMenu6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu6MouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(jMenu6);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -260,8 +279,8 @@ public class showTransaction extends javax.swing.JFrame {
         try {
             this.setVisible(false);
             new productCRUD().setVisible(true);
-        }catch(Exception e){
-            
+        } catch (Exception e) {
+
         }
     }//GEN-LAST:event_jMenu2MouseClicked
 
@@ -269,6 +288,27 @@ public class showTransaction extends javax.swing.JFrame {
         this.setVisible(false);
         new categoryCRUD().setVisible(true);
     }//GEN-LAST:event_jMenu3MouseClicked
+
+    private void jMenu5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu5MouseClicked
+        if (UserSession.getUserRole() == 2 || UserSession.getUserRole() == 3) {
+            JOptionPane.showMessageDialog(null, "You don't have access to this feature");
+        } else {
+            try {
+                this.setVisible(false);
+                new Users().setVisible(true);
+            } catch (SQLException ex) {
+                Logger.getLogger(productCRUD.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_jMenu5MouseClicked
+
+    private void jMenu6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu6MouseClicked
+        int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure want to logout?", "Warning", JOptionPane.YES_NO_OPTION);
+        if (dialogResult == JOptionPane.YES_OPTION) {
+            UserSession.clearUserSession();
+            this.setVisible(false);
+            new logincashier().setVisible(true);
+        }    }//GEN-LAST:event_jMenu6MouseClicked
 
     /**
      * @param args the command line arguments
@@ -314,6 +354,8 @@ public class showTransaction extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
