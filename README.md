@@ -13,7 +13,7 @@ This is a Java GUI application that interacts with a database. It provides a use
 ## Requirements
 
 - Java Development Kit (JDK)
-- Any Java IDE (like IntelliJ IDEA, Eclipse)
+- Any Java IDE (recommend using Netbeans IDE)
 - Database Management System MySQL
 - MYSQL ODBC J-8.2.0 Jar Extension
 - JDate jar Extension
@@ -23,7 +23,8 @@ This is a Java GUI application that interacts with a database. It provides a use
 1. Install JDK and a Java IDE on your system.
 2. Clone this repository to your local machine.
 3. Open the project in your chosen Java IDE.
-4. Set up your database and connect it with the application.
+4. Import ODBC and JDate jar into project library.
+5. Set up your database and connect it with the application.
 
 ## Usage
 
