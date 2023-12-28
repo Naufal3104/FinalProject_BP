@@ -93,10 +93,14 @@ public class model_category implements controller_category {
                 Connection con = connect.getcon();
                 String sql = "DELETE FROM categories WHERE CategoryID = ?";
                 PreparedStatement prepare = con.prepareStatement(sql);
-                prepare.setString(1, Category.txtID.getText());
-                prepare.executeUpdate();
-                prepare.close();
-                JOptionPane.showMessageDialog(null, "Category has been deleted");
+                if (Category.txtID.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Select an category first");
+                } else {
+                    prepare.setString(1, Category.txtID.getText());
+                    prepare.executeUpdate();
+                    prepare.close();
+                    JOptionPane.showMessageDialog(null, "Category has been deleted");
+                }
             } catch (SQLException ex) {
                 ex.printStackTrace();
             } finally {

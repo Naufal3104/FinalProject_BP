@@ -25,17 +25,21 @@ public class model_product implements controller_product {
             Connection con = connect.getcon();
             String sql = "Insert Into products (CategoryID, ProductName, Price, Stock) Values (?, ?, ?, ?)";
             PreparedStatement prepare = con.prepareStatement(sql);
-            if (product.comboCategoryID.getSelectedItem() != null) {
-                int categoryID = Integer.parseInt(product.comboCategoryID.getSelectedItem().toString());
-                prepare.setInt(1, categoryID);
+            if (product.txtProductname.getText().isEmpty() || product.spinPrice.getValue().toString().isEmpty() || product.spinStock.getValue().toString().isEmpty() || product.comboCategoryID.getSelectedItem() == null) {
+                JOptionPane.showMessageDialog(null, "Make sure any value needed is not empty");
+            } else {
+                if (product.comboCategoryID.getSelectedItem() != null) {
+                    int categoryID = Integer.parseInt(product.comboCategoryID.getSelectedItem().toString());
+                    prepare.setInt(1, categoryID);
+                }
+                prepare.setString(2, product.txtProductname.getText());
+                prepare.setInt(3, Integer.parseInt(product.spinPrice.getValue().toString()));
+                prepare.setInt(4, Integer.parseInt(product.spinStock.getValue().toString()));
+                prepare.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Product has been added");
+                prepare.close();
+                New(product);
             }
-            prepare.setString(2, product.txtProductname.getText());
-            prepare.setInt(3, Integer.parseInt(product.spinPrice.getValue().toString()));
-            prepare.setInt(4, Integer.parseInt(product.spinStock.getValue().toString()));
-            prepare.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Product has been added");
-            prepare.close();
-            New(product);
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Please input an valid value");
         } finally {
@@ -50,19 +54,23 @@ public class model_product implements controller_product {
             Connection con = connect.getcon();
             String sql = "UPDATE products SET CategoryID=?, ProductName=?, Price=?, Stock=? WHERE ProductID=?";
             PreparedStatement prepare = con.prepareStatement(sql);
-            if (product.comboCategoryID.getSelectedItem() != null) {
-                int categoryID = Integer.parseInt(product.comboCategoryID.getSelectedItem().toString());
-                prepare.setInt(1, categoryID);
-            }
-            prepare.setString(2, product.txtProductname.getText());
-            prepare.setString(3, product.spinPrice.getValue().toString());
-            prepare.setString(4, product.spinStock.getValue().toString());
-            prepare.setString(5, product.txtProductID.getText());
+            if (product.txtProductname.getText().isEmpty() || product.spinPrice.getValue().toString().isEmpty() || product.spinStock.getValue().toString().isEmpty() || product.comboCategoryID.getSelectedItem() == null || product.txtProductID.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Make sure any value needed is not empty");
+            } else {
+                if (product.comboCategoryID.getSelectedItem() != null) {
+                    int categoryID = Integer.parseInt(product.comboCategoryID.getSelectedItem().toString());
+                    prepare.setInt(1, categoryID);
+                }
+                prepare.setString(2, product.txtProductname.getText());
+                prepare.setString(3, product.spinPrice.getValue().toString());
+                prepare.setString(4, product.spinStock.getValue().toString());
+                prepare.setString(5, product.txtProductID.getText());
 
-            prepare.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Product has been edited");
-            prepare.close();
-            New(product);
+                prepare.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Product has been edited");
+                prepare.close();
+                New(product);
+            }
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Please input an valid value");
         } finally {
@@ -77,10 +85,14 @@ public class model_product implements controller_product {
             Connection con = connect.getcon();
             String sql = "DELETE FROM products WHERE ProductID =?";
             PreparedStatement prepare = con.prepareStatement(sql);
-            prepare.setString(1, product.txtProductID.getText());
-            prepare.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Product has been deleted");
-            prepare.close();
+            if (product.txtProductID.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Select an product first");
+            } else {
+                prepare.setString(1, product.txtProductID.getText());
+                prepare.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Product has been deleted");
+                prepare.close();
+            }
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Please input an valid value");
         } finally {

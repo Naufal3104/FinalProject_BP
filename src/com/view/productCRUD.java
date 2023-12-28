@@ -35,6 +35,7 @@ public class productCRUD extends javax.swing.JFrame {
     public productCRUD() throws SQLException {
         initComponents();
         comboCategoryID.setVisible(false);
+        txtProductID.setVisible(false);
         table.setFillsViewportHeight(true);
         TableColumnModel columnModel = table.getColumnModel();
         for (int i = 0; i < table.getColumnCount(); i++) {
